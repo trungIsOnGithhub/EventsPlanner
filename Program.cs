@@ -1,46 +1,25 @@
-﻿// gRPC is the framework that is used to implement APIs using HTTP/2
-// efficiently connect services across data centers, pluggable for load balancing, tracing, health checking, and authentication. 
-// faster than REST and SOAP
-using System;
-using System.Diagnostics.CodeAnalysis;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace Application
+// Add services to the container.
+builder.Services.AddRazorPages();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    class Option<T> where T : notnull
-    {
-        public static Option<T> None() => default;
-        public static Option<T> Some(T value) => new Option<T>(value);
-
-        readonly T value;
-        readonly bool isSome;
-
-        internal Option(T value)
-        {
-            this.value = value;
-            this.isSome = this.value is T;
-        }
-
-        public bool IsSome(out T value)
-        {
-            value = this.value;
-            return this.isSome;
-        }
-    }
-
-    class Program
-    {
-        public static void Main(string[] args)
-        {
-            Option<string> optionObject  = new (null);
-
-            if (optionObject.IsSome(out var str1))
-            {
-                Console.WriteLine(str1);
-            }
-            else
-            {
-                Console.WriteLine(Option<string>.None());
-            }
-        }
-    }
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapRazorPages();
+
+app.Run();
