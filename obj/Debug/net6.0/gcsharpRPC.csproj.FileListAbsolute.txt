@@ -1,0 +1,15 @@
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\gcsharpRPC.exe
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\gcsharpRPC.deps.json
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\gcsharpRPC.runtimeconfig.json
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\gcsharpRPC.dll
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\gcsharpRPC.pdb
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.csproj.AssemblyReference.cache
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.AssemblyInfoInputs.cache
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.AssemblyInfo.cs
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.dll
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\refint\gcsharpRPC.dll
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.pdb
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.genruntimeconfig.cache
+C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\ref\gcsharpRPC.dll
