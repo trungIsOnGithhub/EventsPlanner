@@ -20,7 +20,7 @@ C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\scopedcss\Pages\Sha
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\scopedcss\bundle\gcsharpRPC.styles.css
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\scopedcss\projectbundle\gcsharpRPC.bundle.scp.css
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.dll
-C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\refint\gcsharpRPC.dll
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.pdb
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\gcsharpRPC.genruntimeconfig.cache
 C:\Users\Administrator\Downloads\gcsharpRPC\obj\Debug\net6.0\ref\gcsharpRPC.dll
+C:\Users\Administrator\Downloads\gcsharpRPC\bin\Debug\net6.0\ref\gcsharpRPC.dll
