@@ -1,0 +1,8 @@
+@page "{id}"
+@model gcsharpRPC.Pages.Polls.CreatePollPageModel
+@{
+    var pollId = RouteData.Values["id"];
+}
+<p>The Id is @pollId</p>
+
+<h2>@(Model.Poll?.Title ?? "Not found")</h2>
