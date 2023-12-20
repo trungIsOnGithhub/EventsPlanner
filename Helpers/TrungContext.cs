@@ -1,24 +1,31 @@
-namespace gcsharpRPC.Helpers;
-
 using Microsoft.EntityFrameworkCore;
-
 using gcsharpRPC.Models;
 
-public class TrungContext : DbContext
+namespace gcsharpRPC.Helpers
 {
-    // Dependedency Injection
-    protected readonly IConfiguration Configuration;
-
-    public TrungContext(IConfiguration configuration)
+    public class TrungContext : DbContext
     {
-        Configuration = configuration;
-    }
+        // Dependedency Injection
+        protected readonly IConfiguration Configuration;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-    }
+        public TrungContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-    public DbSet<Person> Persons { get; set; }
-    public DbSet<Poll> Polls { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+        }
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<Person>().ToTable("Course");
+        //     modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
+        //     modelBuilder.Entity<Student>().ToTable("Student");
+        // }
+
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Poll> Polls { get; set; }
+    }
 }
