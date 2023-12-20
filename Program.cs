@@ -1,4 +1,6 @@
+using gcsharpRPC.Data;
 using gcsharpRPC.Helpers;
+using gcsharpRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<TrungContext>();
+
+builder.Services.AddScoped<PollService>();
+
+// builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
@@ -17,12 +23,21 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<TrungContext>();
+    context.Database.EnsureCreated();
+    DbInitializer.Initialize(context);
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+// app.UseAuthorization();
 
 app.MapRazorPages();
 
