@@ -1,0 +1,29 @@
+﻿@page
+@model gcsharpRPC.Pages.Polls.CreatePollPageModel
+@{
+    ViewData["Title"] = "Create poll";
+}
+
+<h1>Create a poll</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label asp-for="Poll.Title"></label>
+        <input type="text" asp-for="Poll.Title" class="form-control" />
+        <span asp-validation-for="Poll.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Poll.Description"></label>
+        <input type="text" asp-for="Poll.Description" class="form-control" />
+        <span asp-validation-for="Poll.Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Poll.Location"></label>
+        <input type="text" asp-for="Poll.Location" class="form-control" />
+        <span asp-validation-for="Poll.Location" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm mt-2 mb-2">Create</button>
+</form>
