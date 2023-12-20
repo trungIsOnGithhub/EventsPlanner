@@ -11,4 +11,6 @@ public class Poll
     public string Location { get; set; }
     public DateTime? CloseDate { get; set; }
     public Guid PollGuid { get; set; }
+
+    public ICollection<PollOption> Options { get; set; }
 }
