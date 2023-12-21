@@ -7,23 +7,40 @@ namespace gcsharpRPC.Pages.Polls
 {
     public class CreatePollPageModel : PageModel
     {
-        PollService _pollServ;
+        private readonly PollService _service;
 
+        private readonly ILogger _logger;
+
+        [BindProperty]
         public Poll Poll { get; set; }
 
-        // public DateTime[] PollOptionDates { get; set; }
+        [BindProperty]
+        public DateTime[] PollOptionDates { get; set; }
         
-        public CreatePollPageModel(PollService pollService)
+        public CreatePollPageModel(PollService pollService,
+                            ILogger<CreatePollPageModel> logger)
         {
-            _pollServ = pollService;
+            _service = pollService;
+            _logger = logger;
         }
         
-        public Task<IActionResult> OnPostAsync() {
-            if (ModelState.IsValid && Poll != null) {
-                await _pollService.CreatePollAsync(Poll, PollOptionDates);
+        public async Task<IActionResult> OnPostAsync() {
+            _logger.LogInformation("Called OnPostAsync!!");
+
+            if (ModelState.IsValid) {
+                _logger.LogInformation("Model Valid");
+            }
+
+            if (Poll is not null) {
+                _logger.LogInformation("Poll is not null");
+            }
+
+            if (ModelState.IsValid && Poll is not null) {
+                await _service.CreatePollAsync(Poll, PollOptionDates);
 
                 return RedirectToPage("Index", new { id = Poll.Id });
             }
+
             return Page();
         }
     }

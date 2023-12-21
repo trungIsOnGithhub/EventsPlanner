@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using gcsharpRPC.Models;
 using gcsharpRPC.Services;
+using gcsharpRPC.Helpers    ;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,54 +9,28 @@ namespace gcsharpRPC.Pages.Polls
 {
     public class GetPollPageModel : PageModel
     {
-        private readonly PollService _service;
+        private readonly ILogger<GetPollPageModel> _logger;
 
+        private readonly PollService _service;
+        
         public Poll Poll { get; set; }
 
-        public GetPollPageModel(TrungContext dbContext)
+        public GetPollPageModel(PollService service, ILogger<GetPollPageModel> logger)
         {
-            _context = dbContext;
+            _service = service;
+            _logger = logger;
         }
 
         public async Task OnGetAsync(int id)
         {
             _logger.LogInformation($"OnGetAsync IndexModel with ID: {id}");
-            Poll = await _pollService.GetPollAsync(id);
+            Poll = await _service.GetPollAsync(id);
         }
 
-        // public async Task<IActionResult> OnGetAsync(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         System.Diagnostics.Debug.WriteLine("ID is NULL");
-        //         return NotFound();
-        //     }
-
-        //     System.Diagnostics.Debug.WriteLine("ID is: " + id);
-
-        //     Poll = await _context.Polls.FirstOrDefaultAsync(m => m.Id == id);
-
-        //     System.Diagnostics.Debug.WriteLine("Poll is: " + (Poll is null));
-
-        //     if (Poll == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return Page();
-        // }
-        
-        // public void OnGet(int id)
-        // {
-        //     // System.Console.WriteLine(id);
-        //     // Poll = dbContext.Polls
-        //     //             .Single(x => x.Id == id);
-        //     Poll = new Poll{
-        //         Id = 68,
-        //         Title = "Cong Ty Axon Active Nhu CC",
-        //         Description = "Cong Ty Axon Active Nhu CC",
-        //         Location = "Hai Au Building"
-        //     };
-        // }
+        public async Task<IActionResult> OnPostCloseAsync(int id)
+        {
+            _logger.LogInformation($"Call OnPostCloseAsync with ID {id}");
+            return RedirectToPage("/Polls/Index", new { id = id.ToString() });
+        }
     }
 }
