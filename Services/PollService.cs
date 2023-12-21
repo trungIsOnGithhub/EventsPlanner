@@ -1,5 +1,7 @@
 using gcsharpRPC.Models;
 using gcsharpRPC.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace gcsharpRPC.Services
 {
@@ -12,7 +14,7 @@ namespace gcsharpRPC.Services
             dbContext = _dbContext;
         }
 
-        public async Task<IActionResult> GetPollAsync(int id)
+        public async Task<Poll> GetPollAsync(int id)
         {
             return await dbContext.Polls
                 .Where(poll => poll.Id == id)
@@ -21,7 +23,7 @@ namespace gcsharpRPC.Services
 
         public async Task<int> CreatePollAsync(Poll poll, DateTime[] pollDateOptions)
         {
-            foreach (var date in pollDatesOptions) {
+            foreach (var date in pollDateOptions) {
                 poll.Options.Add(
                     new PollOption { Date = date }
                 );
