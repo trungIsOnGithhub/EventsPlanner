@@ -13,4 +13,5 @@ public class Poll
     public Guid PollGuid { get; set; }
 
     public ICollection<PollOption> Options { get; set; }
+    public ICollection<UserVote> UserVotes { get; set; }
 }
