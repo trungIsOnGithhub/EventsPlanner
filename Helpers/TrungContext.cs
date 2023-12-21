@@ -18,14 +18,18 @@ namespace gcsharpRPC.Helpers
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
         }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<Person>().ToTable("Course");
-        //     modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
-        //     modelBuilder.Entity<Student>().ToTable("Student");
-        // }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Poll>()
+                .HasMany(x => x.UserVotes)
+                .WithOne(x => x.Poll);
+            modelBuilder.Entity<UserVote>()
+                .HasMany(x => x.Options)
+                .WithMany(x => x.UserVotes);
+        }
 
-        public DbSet<Person> Persons { get; set; }
         public DbSet<Poll> Polls { get; set; }
+        public DbSet<PollOption> PollOptions { get; set; }
+        public DbSet<UserVote> UserVotes { get; set; }
     }
 }
