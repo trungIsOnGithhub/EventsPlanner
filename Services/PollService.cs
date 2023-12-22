@@ -68,5 +68,35 @@ namespace gcsharpRPC.Services
 
             return id;
         }
+
+        public async Task<Poll> GetPollByGuidAsync(Guid guid)
+        {
+            return await dbContext.Polls
+                .Where(poll => poll.PollGuid == guid)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task VotePollAsync(Guid guid, string name, string email, int[] selectedPollOptions)
+        {
+            var poll = dbContext.Polls.Single(poll => poll.PollGuid == guid);
+
+            var existingUserVote = poll.UserVotes.FirstOrDefault(x => x.Email == email);
+
+            if (existingUserVote is not null)
+                dbContext.UserVotes.Remove(existingUserVote);
+
+            var voteOptions = poll.Options.Where(poll => selectedPollOptions.Contains(poll.Id)).ToList();
+
+            dbContext.UserVotes.Add(
+                new UserVote {
+                    Email = email,
+                    Name = name,
+                    Poll = poll,
+                    Options = voteOptions
+                }
+            );
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

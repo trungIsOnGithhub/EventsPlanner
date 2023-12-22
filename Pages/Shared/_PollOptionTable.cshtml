@@ -1,0 +1,11 @@
+@model gcsharpRPC.Pages.Shared._PollOptionTableModel
+
+@{
+    var poll = Model.Poll is null ? "NULL" : "NOTNULL"; 
+    var orderedPollOptions = Model.Poll.Options.ToArray();
+    @* var maxVoteAmount = orderedPollOptions.Max(x => x.UserVotes.Count());
+    var optionsWithMaxVotesAmount = orderedPollOptions.Where(x => x.UserVotes.Count() == maxVoteAmount).Count(); *@
+}
+<h1>Vui Ve @poll</h1>
+<div class="table-responsive">
+</div>

@@ -1,4 +1,5 @@
 @page "{id:int}"
+@using gcsharpRPC.Pages.Shared;
 @model gcsharpRPC.Pages.Polls.GetPollPageModel
 @{
     var pollId = RouteData.Values["id"];
@@ -33,10 +34,11 @@
         <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
     </form>
 
-    @* var pollGuid = Model.Poll.PollGuid.ToString("N");
-    <a class="btn btn-primary btn-sm ms-1" asp-page="../Polls/Participate" asp-route-pollGuid="@pollGuid">Participate</a>
+    var pollGuid = Model.Poll.PollGuid.ToString("N");
+    <h2>@pollGuid</h2>
+    <a class="btn btn-primary btn-sm ms-1" asp-page="../Polls/Join" asp-route-id="@pollGuid">Join</a>
 
-    <h6>Close</h6>
+    @* <h6>Close</h6>
     <form method="POST">
         <button type="submit" asp-page-handler="ToggleClose" asp-route-id="@Model.Poll.Id">Close</button>
     </form> *@
