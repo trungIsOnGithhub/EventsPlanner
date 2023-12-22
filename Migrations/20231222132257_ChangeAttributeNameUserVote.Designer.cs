@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gcsharpRPC.Helpers;
 
@@ -10,9 +11,10 @@ using gcsharpRPC.Helpers;
 namespace gcsharpRPC.Migrations
 {
     [DbContext(typeof(TrungContext))]
-    partial class TrungContextModelSnapshot : ModelSnapshot
+    [Migration("20231222132257_ChangeAttributeNameUserVote")]
+    partial class ChangeAttributeNameUserVote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.25");
