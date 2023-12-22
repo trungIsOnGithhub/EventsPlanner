@@ -29,17 +29,17 @@
     }
 
     <h6>Delete</h6>
-    <form method="DELETE">
-        <button type="submit">Delete</button>
+    <form method="POST">
+        <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
     </form>
 
-    var pollGuid = Model.Poll.PollGuid.ToString("N");
+    @* var pollGuid = Model.Poll.PollGuid.ToString("N");
     <a class="btn btn-primary btn-sm ms-1" asp-page="../Polls/Participate" asp-route-pollGuid="@pollGuid">Participate</a>
 
     <h6>Close</h6>
     <form method="POST">
         <button type="submit" asp-page-handler="ToggleClose" asp-route-id="@Model.Poll.Id">Close</button>
-    </form>
+    </form> *@
 }
 
 <div class="mt-3">

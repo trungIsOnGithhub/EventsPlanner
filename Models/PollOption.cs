@@ -4,14 +4,8 @@ namespace gcsharpRPC.Models
     {
         public int Id { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
 
-        public ICollection<UserVote> UserVotes { get; set; }
-
-        public PollOption()
-        {
-            Date = DateTime.Now;
-            UserVotes = new List<UserVote>();
-        }
+        public ICollection<UserVote> UserVotes { get; set; }  = new List<UserVote>();
     }
 }

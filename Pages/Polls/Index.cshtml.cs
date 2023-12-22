@@ -23,14 +23,22 @@ namespace gcsharpRPC.Pages.Polls
 
         public async Task OnGetAsync(int id)
         {
-            _logger.LogInformation($"OnGetAsync IndexModel with ID: {id}");
+            _logger.LogInformation($"Call OnGetAsync IndexModel with ID: {id}");
             Poll = await _service.GetPollAsync(id);
         }
 
         public async Task<IActionResult> OnPostCloseAsync(int id)
         {
             _logger.LogInformation($"Call OnPostCloseAsync with ID {id}");
-            return RedirectToPage("/Polls/Index", new { id = id.ToString() });
+            int idClosed = await _service.ClosePollAsync(id);
+            return RedirectToPage("/Polls/Index", new { id = idClosed.ToString() });
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            _logger.LogInformation($"Call OnDeleteAsync with ID {id}");
+            int idDeleted = await _service.DeletePollAsync(id);
+            return RedirectToPage("/Polls/Index", new { id = idDeleted.ToString() });;
         }
     }
 }
