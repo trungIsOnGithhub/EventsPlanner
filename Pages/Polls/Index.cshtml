@@ -32,11 +32,12 @@
     <h6>Delete</h6>
     <form method="POST">
         <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
+        @{
+            var guid = Model.Poll.PollGuid.ToString("N");
+            <h2>@guid</h2>
+            <a class="btn btn-primary btn-sm ms-1" asp-page="Join" asp-route-guid="@guid">Join</a>
+        }
     </form>
-
-    var pollGuid = Model.Poll.PollGuid.ToString("N");
-    <h2>@pollGuid</h2>
-    <a class="btn btn-primary btn-sm ms-1" asp-page="../Polls/Join" asp-route-id="@pollGuid">Join</a>
 
     @* <h6>Close</h6>
     <form method="POST">
