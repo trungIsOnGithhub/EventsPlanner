@@ -18,6 +18,7 @@ namespace gcsharpRPC.Services
         {
             return await dbContext.Polls
                 .Where(poll => poll.Id == id)
+                .IncludeOptionsAndVotes()
                 .SingleOrDefaultAsync();
         }
 
@@ -73,6 +74,7 @@ namespace gcsharpRPC.Services
         {
             return await dbContext.Polls
                 .Where(poll => poll.PollGuid == guid)
+                .IncludeOptionsAndVotes()
                 .SingleOrDefaultAsync();
         }
 

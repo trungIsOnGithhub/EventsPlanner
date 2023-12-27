@@ -35,6 +35,24 @@ namespace gcsharpRPC.Pages.Polls
                 _logger.LogInformation("Poll is not null");
             }
 
+            if (PollOptionDates is not null) {
+                _logger.LogInformation("PollOptionDates is not null");
+            }
+
+            if (PollOptionDates.Length == 0)
+            {
+                _logger.LogInformation("PollOptionDates is zero");
+            }
+            else
+            {
+                _logger.LogInformation("PollOptionDates is not zero");
+            }
+
+            foreach (var p in PollOptionDates)
+            {
+                _logger.LogInformation("--> " + p.ToString());
+            }
+
             if (ModelState.IsValid && Poll is not null) {
                 await _service.CreatePollAsync(Poll, PollOptionDates);
 

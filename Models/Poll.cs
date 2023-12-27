@@ -14,4 +14,10 @@ public class Poll
 
     public ICollection<PollOption> Options { get; set; }
     public ICollection<UserVote> UserVotes { get; set; }
+
+    public Poll() {
+        PollGuid = Guid.NewGuid();
+        UserVotes = new List<UserVote>();
+        Options = new List<PollOption>();
+    }
 }
