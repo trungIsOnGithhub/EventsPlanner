@@ -16,6 +16,12 @@ namespace gcsharpRPC.Pages.Polls
 
         [BindProperty]
         public DateTime[] PollOptionDates { get; set; }
+
+        [BindProperty]
+        public string[] PollOptionStartTimes { get; set; }
+
+        [BindProperty]
+        public string[] PollOptionEndTimes { get; set; }
         
         public CreatePollPageModel(PollService pollService,
                             ILogger<CreatePollPageModel> logger)
@@ -35,26 +41,37 @@ namespace gcsharpRPC.Pages.Polls
                 _logger.LogInformation("Poll is not null");
             }
 
-            if (PollOptionDates is not null) {
-                _logger.LogInformation("PollOptionDates is not null");
-            }
+            // if (PollOptions is not null) {
+            //     _logger.LogInformation("PollOptions is not null");
+            //     // _logger.LogInformation(PollOptions.StartTime);
+            // }
 
-            if (PollOptionDates.Length == 0)
-            {
-                _logger.LogInformation("PollOptionDates is zero");
-            }
-            else
-            {
-                _logger.LogInformation("PollOptionDates is not zero");
-            }
+            // if (PollOptions.Length == 0)
+            // {
+            //     _logger.LogInformation("PollOptions is zero");
+            // }
+            // else
+            // {
+            //     _logger.LogInformation("PollOptions is not zero");
+            // }
 
-            foreach (var p in PollOptionDates)
+            PollOption[] PollOptions = new PollOption[PollOptionDates.Length];
+
+            for (int i=0; i<PollOptionEndTimes.Length; ++i)
             {
-                _logger.LogInformation("--> " + p.ToString());
+                _logger.LogInformation("--> " + PollOptionDates[i]);
+                _logger.LogInformation("--> " + PollOptionStartTimes[i]);
+                _logger.LogInformation("--> " + PollOptionEndTimes[i]);
+
+                PollOptions[i] = new PollOption {
+                    Date = PollOptionDates[i],
+                    StartTime = PollOptionStartTimes[i],
+                    EndTime = PollOptionEndTimes[i]
+                };
             }
 
             if (ModelState.IsValid && Poll is not null) {
-                await _service.CreatePollAsync(Poll, PollOptionDates);
+                await _service.CreatePollAsync(Poll, PollOptions);
 
                 return RedirectToPage("Index", new { id = Poll.Id });
             }

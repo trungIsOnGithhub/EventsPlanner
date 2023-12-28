@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+.ui-timepicker-wrapper {
+  background-color: lightgrey;
+  z-index: 69;
+  padding: 12px;
+  border: 1px solid black;
+}

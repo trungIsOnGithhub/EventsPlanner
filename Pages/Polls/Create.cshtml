@@ -1,9 +1,9 @@
 ﻿@page
 @model gcsharpRPC.Pages.Polls.CreatePollPageModel
 @{
-    ViewData["Title"] = "Create poll";
+    ViewData["Title"] = "Create Events";
 }
-<h1>Create a poll</h1>
+<h1>Create An Event</h1>
 
 <form method="POST">
     <div class="form-group">
@@ -62,7 +62,7 @@
     function addOptions() {
         const fromDate = document.getElementById("fromDate").valueAsDate;
         const toDate = document.getElementById("toDate").valueAsDate;
-        
+    
         let existingValues = $("#option-container > div >  input")
             .map((_i, option) => option.valueAsDate.toString())
             .get();
@@ -75,28 +75,55 @@
         reorderPollOptions();
     }
     function addOption(value) {
+        // const defaultStartTime = "00:00";
+        // const defaultEndTime = "24:59";
+
         const container = document.createElement("div");
         container.className = "poll-option d-flex mb-1";
 
-        const input = document.createElement("input");
-        input.className = "form-control";
+        let input = document.createElement("input");
+        input.className = "form-control date-option";
         input.name = "PollOptionDates";
         input.type = "date";
         input.valueAsDate = value;
         input.addEventListener("change", reorderPollOptions);
         container.append(input);
 
+        input = document.createElement("input");
+        input.className = "form-control time-option";
+        input.name = "PollOptionStartTimes";
+        // input.value = defaultStartTime;
+        // input.addEventListener("change", reorderPollOptions);
+        container.append(input);
+
+        input = document.createElement("input");
+        input.className = "form-control time-option";
+        input.name = "PollOptionEndTimes";
+        // input.value = defaultEndTime;
+        // input.addEventListener("change", reorderPollOptions);
+        container.append(input);
+
         const delButton = document.createElement("button");
         delButton.className = "btn btn-outline-danger btn-sm ms-1";
         delButton.textContent = "Remove";
         delButton.type = "button";
-        delButton.addEventListener("click", () => container.remove());
+        delButton.addEventListener("click", function() {
+            $(".time-option").each(function() {
+                console.log("++ " + $(this).value);
+            });
+            container.remove()
+        });
         container.append(delButton);
         
         document.getElementById("option-container").append(container);
+
+        $(".time-option").each(function() {
+            console.log("--> " + $(this).val());
+            $(this).timepicker();
+        });
     }
     function reorderPollOptions() {
-        $("#option-container div").sort((a, b) => {
+        $("#option-container > .date-option").sort(function(a, b) {
             const dateA = a.childNodes[0].valueAsDate;
             const dateB = b.childNodes[0].valueAsDate;
 
