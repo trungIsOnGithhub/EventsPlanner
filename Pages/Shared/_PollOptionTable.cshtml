@@ -1,11 +1,10 @@
 @model gcsharpRPC.Pages.Shared._PollOptionTableModel
 @{
-    var poll = Model.Poll is null ? "NULL" : "NOTNULL"; 
+    // var poll = Model.Poll is null ? "NULL" : "NOTNULL"; 
     var orderedPollOptions = Model.Poll.Options.ToArray();
     var maxVoteAmount = orderedPollOptions.Max(poll => poll.UserVotes.Count());
     var optionsWithMaxVotesAmount = orderedPollOptions.Where(poll => poll.UserVotes.Count() == maxVoteAmount).Count();
 }
-<h1>Vui Ve @poll</h1>
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -15,10 +14,11 @@
                 <th scope="col">
                     <div class="d-flex justify-content-center">
                         <div class="card mb-3 d-inline-block text-center border-secondary">
-                            <div class="card-header">@pollOption.Date.ToString("MMM.").ToUpper()</div>
+                            <div class="card-header">
+                                <p>@pollOption.Date.ToString("MMMM")</p>
+                                <p class="card-text text-center">@pollOption.Date.ToString("dddd") - @pollOption.Date.Day</p>
+                            </div>
                             <div class="card-body text-dark">
-                                <p class="card-text text-center">@pollOption.Date.ToString("ddd.").ToUpper()</p>
-                                <h5 class="card-title text-center">@pollOption.Date.Day</h5>
                                 @{
                                     var userVoteStyle = "";
                                     var userVotes = pollOption.UserVotes.Count();
@@ -33,15 +33,21 @@
                                     <input class="card-text form-check-input" type="checkbox" name="SelectedPollOptionIds" value="@(pollOption.Id)" />
                                 }
                             </div>
+                            <div class="card-header">
+                                <p>@pollOption.StartTime</p>
+                                <p>to</p>
+                                <p>@pollOption.EndTime</p>
+                            </div>
                         </div>
                     </div>
                 </th>
             }
         </thead>
         <tbody>
-            @foreach (var userVote in Model.Poll.UserVotes.OrderBy(x => x.Name))
+            @foreach (var userVote in Model.Poll.UserVotes)
             {
                 <tr>
+                    <td>@userVote.Name</td>
                     @foreach (var pollOption in orderedPollOptions)
                     {
                         var hasVoted = userVote.Options.Any(x => x == pollOption);

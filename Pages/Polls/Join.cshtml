@@ -8,17 +8,23 @@
    <partial name="_ValidationScriptsPartial" />
 }
 
-<h1>hihihihihi</h1>
-
 <h2>@(Model.Poll?.Title ?? "Not found")</h2>
 
 @if (Model.Poll is not null)
 {
     <h5>Description</h5>
-    <p>@Html.DisplayFor(x => Model.Poll.Description)</p>
+    <div class="card">
+    <div class="card-body">
+    @Html.DisplayFor(model => model.Poll.Description)
+    </div>
+    </div>
 
     <h5>Location</h5>
-    <p>@Html.DisplayFor(x => Model.Poll.Location)</p>
+    <div class="card">
+    <div class="card-body">
+        @Html.DisplayFor(model => model.Poll.Location)
+    </div>
+    </div>
 
     <div>
         <dl class="row">
@@ -42,7 +48,7 @@
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
-                        <input type="submit" class="btn btn-primary mt-2 mb-2 btn-sm" value="Vote" />
+                        <input type="submit" class="btn btn-primary mt-2 mb-2 btn-sm" value="Join"/>
                     }
                     else
                     {

@@ -4,37 +4,27 @@
 @{
     var pollId = RouteData.Values["id"];
 }
-<p>The Id is @pollId</p>
+<!-- <p>The Id is @pollId</p>
 
 <p>
 @if (Model.Poll is null)
 {
     <span>Vai Ca Null</span>
 }
-</p>
+</p> -->
 
-<h2>@(Model.Poll?.Title ?? "Not found")</h2>
+<h2>@(Model.Poll?.Title ?? "Not Found")</h2>
 
 @if (Model.Poll is not null)
 {
-    <h5>Description</h5>
-    <p>@Html.DisplayFor(model => model.Poll.Description)</p>
-
-    <h5>Description</h5>
-    <p>@Html.DisplayFor(model => model.Poll.Location)</p>
-
-    @if (Model.Poll.CloseDate is not null)
-    {
-        <h5>Description</h5>
-        <p>@Html.DisplayFor(model => model.Poll.CloseDate)</p>
-    }
-
-    <h6>Delete</h6>
+    <h5>Actions</h5>
     <form method="POST">
-        <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
+        @if (Request.Query["admin"] == "true")
+        {
+            <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
+        }
         @{
             var guid = Model.Poll.PollGuid.ToString("N");
-            <h2>@guid</h2>
             <a class="btn btn-primary btn-sm ms-1" asp-page="Join" asp-route-guid="@guid">Join</a>
         }
     </form>

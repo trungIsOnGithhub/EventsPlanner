@@ -9,9 +9,13 @@ namespace gcsharpRPC.Services
     {
         private readonly TrungContext dbContext;
 
-        public PollService(TrungContext _dbContext)
+        private readonly ILogger _logger;
+
+        public PollService(TrungContext _dbContext,
+                        ILogger<PollService> logger)
         {
             dbContext = _dbContext;
+            _logger = logger;
         }
 
         public async Task<Poll> GetPollAsync(int id)
@@ -22,15 +26,17 @@ namespace gcsharpRPC.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<int> CreatePollAsync(Poll poll, DateTime[] pollDateOptions)
+        public async Task<int> CreatePollAsync(Poll poll, PollOption[] pollOptions)
         {
-            foreach (var date in pollDateOptions) {
-                poll.Options.Add(
-                    new PollOption { Date = date }
-                );
+            foreach (var option in pollOptions) {
+                poll.Options.Add(option);
+                // _logger.LogInformation(")))) " + option.Date);
+                // _logger.LogInformation(")))) " + option.StartTime);
             }
 
             await dbContext.Polls.AddAsync(poll);
+
+            _logger.LogInformation("===== " + poll);
 
             return await dbContext.SaveChangesAsync();
         }
