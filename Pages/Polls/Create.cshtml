@@ -12,25 +12,26 @@
         <span asp-validation-for="Poll.Title" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Poll.Description"></label>
-        <input type="text" asp-for="Poll.Description" class="form-control" />
-        <span asp-validation-for="Poll.Description" class="text-danger"></span>
-    </div>
-
     <div class="form-group mb-3">
         <label asp-for="Poll.Location"></label>
         <input type="text" asp-for="Poll.Location" class="form-control" />
         <span asp-validation-for="Poll.Location" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label aspfor="Poll.CloseDate">Close Date(mm/dd/yy)</label>
+        <input id="clsDate" type="date" asp-for="Poll.CloseDate" class="form-control" />
+    </div>
+
+    <div style="height:20px;"></div>
+
     <h5>Add poll options</h5>
     <div class="form-group">
-        <label for="fromDate">From</label>
+        <label for="fromDate">From(mm/dd/yy)</label>
         <input id="fromDate" type="date" class="form-control" />
     </div>
     <div class="form-group mb-2">
-        <label for="toDate">To</label>
+        <label for="toDate">To(mm/dd/yy)</label>
         <input id="toDate" type="date" class="form-control" />
     </div>
     <button type="button" class="btn btn-outline-primary btn-sm mb-3" onclick="addOptions()">Add options</button>
@@ -45,11 +46,14 @@
     document.addEventListener("DOMContentLoaded", () => {
         const fromDateCtl = document.getElementById("fromDate");
         const toDateCtl = document.getElementById("toDate");
-        
-        // Set initial value
+
         const currentDate = new Date();
         fromDateCtl.valueAsDate = currentDate;
         toDateCtl.valueAsDate = currentDate;
+
+        const next7days = new Date();
+        next7days.setDate(currentDate.getDate() + 7);
+        document.getElementById("clsDate").valueAsDate = next7days;
 
         fromDateCtl.addEventListener("change", () => {
             const fromDate = fromDateCtl.valueAsDate;
@@ -62,7 +66,7 @@
     function addOptions() {
         const fromDate = document.getElementById("fromDate").valueAsDate;
         const toDate = document.getElementById("toDate").valueAsDate;
-    
+
         let existingValues = $("#option-container > div >  input")
             .map((_i, option) => option.valueAsDate.toString())
             .get();
