@@ -50,15 +50,17 @@ namespace gcsharpRPC.Services
                 return id;
             }
 
-            if (pollToDelete?.Options is not null)
-            {
-                foreach (var option in pollToDelete.Options)
-                {
-                    dbContext.PollOptions.Remove(option);
-                }
-            }
+            pollToDelete.IsDeleted = true;
 
-            dbContext.Polls.Remove(pollToDelete);
+            // if (pollToDelete?.Options is not null)
+            // {
+            //     foreach (var option in pollToDelete.Options)
+            //     {
+            //         dbContext.PollOptions.Remove(option);
+            //     }
+            // }
+
+            // dbContext.Polls.Remove(pollToDelete);
 
             await dbContext.SaveChangesAsync();
 
