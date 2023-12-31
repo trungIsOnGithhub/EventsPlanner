@@ -11,6 +11,8 @@ public class Poll
     public DateTime? CloseDate { get; set; }
     public Guid PollGuid { get; set; }
 
+    public bool IsDeleted { get; set; } = false;
+
     public ICollection<PollOption> Options { get; set; }
     public ICollection<UserVote> UserVotes { get; set; }
 
