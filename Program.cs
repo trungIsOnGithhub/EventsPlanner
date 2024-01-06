@@ -4,14 +4,47 @@ using gcsharpRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AuthorizeFolder("/");
+        options.Conventions.AllowAnonymousToPage("/Index");
+        options.Conventions.AllowAnonymousToPage("/Events/Participate");
+    });
 
 builder.Services.AddDbContext<TrungContext>();
 
+services.AddDbContext<PollContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+/**
+*   Authentication config
+**/
+builder.Services.AddAuthentication(options =>
+    {
+        // default setting
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    })
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        //options.Cookie.SameSite = SameSiteMode.Strict;
+
+        Console.WriteLine(options.Cookie);
+
+        options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
+        options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
+    });
+
+/**
+* Add Service
+**/
 builder.Services.AddScoped<PollService>();
 
 // builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 var app = builder.Build();
 
@@ -37,7 +70,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapRazorPages();
 

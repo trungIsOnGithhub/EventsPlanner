@@ -2,7 +2,9 @@
 
 > Developing with .NET 6, C# 10, Sqlite 3 v3.10.1
 
-A simple .NET event booking planner with OpenID Connect (OAuth) integration, to be hosted within a Docker container.
+[![CI](https://github.com/trungIsOnGithhub/gcsharpRPC/actions/workflows/ci.yml/badge.svg)](https://github.com/trungIsOnGithhub/gcsharpRPC/actions/workflows/ci.yml)
+
+A simple .NET event booking planner with OpenID Connect(OAuth) integration, to be hosted within a Docker container.
 
 ### Project Setup
 
