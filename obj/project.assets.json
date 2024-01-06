@@ -1298,24 +1298,25 @@
     ]
   },
   "packageFolders": {
-    "/home/pc/.nuget/packages/": {}
+    "/home/codespace/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/pc/vuive/gcsharpRPC/gcsharpRPC.csproj",
+      "projectUniqueName": "/workspaces/gcsharpRPC/gcsharpRPC.csproj",
       "projectName": "gcsharpRPC",
-      "projectPath": "/home/pc/vuive/gcsharpRPC/gcsharpRPC.csproj",
-      "packagesPath": "/home/pc/.nuget/packages/",
-      "outputPath": "/home/pc/vuive/gcsharpRPC/obj/",
+      "projectPath": "/workspaces/gcsharpRPC/gcsharpRPC.csproj",
+      "packagesPath": "/home/codespace/.nuget/packages/",
+      "outputPath": "/workspaces/gcsharpRPC/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/pc/.nuget/NuGet/NuGet.Config"
+        "/home/codespace/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "/usr/local/dotnet/7.0.306/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1364,6 +1365,16 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.20, 6.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.20, 6.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -1372,7 +1383,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/230/sdk/6.0.417/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
       }
     }
   }

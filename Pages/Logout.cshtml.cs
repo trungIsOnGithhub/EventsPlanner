@@ -14,7 +14,7 @@ public class LogoutModel : PageModel
         _config = config;
     }
 
-    public async Task<IActionResult> OnGet()
+    public async IActionResult OnGet()
     {
         HttpContext.Session.Remove("username");
         return Page();

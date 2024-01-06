@@ -30,7 +30,7 @@ public class LoginModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostLogIn()  
+    public IActionResult OnPostLogIn()  
     {
         if (Username.Equals("trungdeptrai") && Password.Equals("trungdeptrai"))
         {
