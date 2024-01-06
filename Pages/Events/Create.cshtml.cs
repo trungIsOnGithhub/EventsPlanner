@@ -2,6 +2,7 @@ using gcsharpRPC.Models;
 using gcsharpRPC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 
 namespace gcsharpRPC.Pages.Polls
 {
@@ -29,8 +30,21 @@ namespace gcsharpRPC.Pages.Polls
             _service = pollService;
             _logger = logger;
         }
-        
+
+        public IActionResult OnGet() {
+            if (HttpContext.Session.GetString("username") is null) 
+            {
+                return Redirect("/Login");
+            }
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync() {
+            if (HttpContext.Session.GetString("username") is null)
+            {
+                return Redirect("/Login");
+            }
+
             _logger.LogInformation("Called OnPostAsync!!");
 
             if (ModelState.IsValid) {

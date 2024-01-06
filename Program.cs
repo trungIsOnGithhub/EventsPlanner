@@ -4,39 +4,53 @@ using gcsharpRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages()
-    .AddRazorPagesOptions(options =>
-    {
-        options.Conventions.AuthorizeFolder("/");
-        options.Conventions.AllowAnonymousToPage("/Index");
-        options.Conventions.AllowAnonymousToPage("/Events/Participate");
-    });
+builder.Services.AddRazorPages();
+    // .AddRazorPagesOptions(options =>
+    // {
+    //     options.Conventions.AuthorizeFolder("/");
+    //     options.Conventions.AllowAnonymousToPage("/Index");
+    //     options.Conventions.AllowAnonymousToPage("/Login");
+    //     options.Conventions.AllowAnonymousToPage("/Error");
+    //     options.Conventions.AllowAnonymousToPage("/Events/Join");
+    //     options.Conventions.AllowAnonymousToPage("/Events/List");
+    // });
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(18);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddDbContext<TrungContext>();
-
-services.AddDbContext<PollContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 /**
 *   Authentication config
 **/
-builder.Services.AddAuthentication(options =>
-    {
-        // default setting
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-    })
-    .AddCookie(options =>
-    {
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        //options.Cookie.SameSite = SameSiteMode.Strict;
+// builder.Services.AddAuthentication(options =>
+//     {
+//         // default setting
+//         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//         options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+//         options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;  
+//         options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//     })
+//     .AddCookie(options =>
+//     {
+//         options.Cookie.HttpOnly = true;
+//         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+//         //options.Cookie.SameSite = SameSiteMode.Strict;
 
-        Console.WriteLine(options.Cookie);
+//         // Console.WriteLine(options.Cookie);
 
-        options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
-        options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
-    });
+//         options.LoginPath = new PathString("/Login");  
+//         options.ExpireTimeSpan = TimeSpan.FromMinutes(8.0);  
+
+//         options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
+//         options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
+//     });
 
 /**
 * Add Service
@@ -70,7 +84,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseSession();
+// app.UseAuthentication();
 
 app.MapRazorPages();
 
