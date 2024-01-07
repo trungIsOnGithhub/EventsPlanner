@@ -7,38 +7,29 @@ namespace gcsharpRPC.Pages;
 
 public class LoginModel : PageModel
 {
-    [Required]
-    [BindProperty]
-    public String Username { get; set; }
+    public String Message { get; set; } = "";
 
-    [Required]
-    [BindProperty]
-    [DataType(DataType.Password)]
-    public String Password { get; set; }
+    // private readonly IConfiguration _config;
 
-    public String Message { get; set; }
-
-    private readonly IConfiguration _config;
-
-    public LoginModel(IConfiguration config)
-    {
-        _config = config;
-    }
+    // public LoginModel()
+    // {
+    // }
 
     public IActionResult OnGet()  
     {
         return Page();
     }
 
-    public async Task<IActionResult> OnPostLogIn()  
+    public async Task<IActionResult> OnPost(string username, string password)  
     {
-        if (Username.Equals("trungdeptrai") && Password.Equals("trungdeptrai"))
+        if ( username.Equals("trungdeptrai", StringComparison.CurrentCulture) &&
+             password.Equals("trungdeptrai", StringComparison.CurrentCulture) )
         {
-            HttpContext.Session.SetString("username", Username);
+            HttpContext.Session.SetString("username", username);
             return Redirect("/Events/List");
         }
 
-        Message = "Invalid Username Or Password";
+        Message = "Invalid Username Or Password!";
         // try  
         // {   
         //     if (ModelState.IsValid)  

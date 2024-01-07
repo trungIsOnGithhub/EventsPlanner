@@ -3,6 +3,7 @@ using gcsharpRPC.Models;
 using gcsharpRPC.Services;
 using gcsharpRPC.Helpers    ;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace gcsharpRPC.Pages.Polls
@@ -11,9 +12,11 @@ namespace gcsharpRPC.Pages.Polls
     {
         private readonly ILogger<GetPollPageModel> _logger;
 
-        private readonly PollService _service;
+        private readonly PollService _service = null;
         
         public Poll Poll { get; set; }
+
+        public ISession _session;
 
         public GetPollPageModel(PollService service, ILogger<GetPollPageModel> logger)
         {
@@ -23,6 +26,8 @@ namespace gcsharpRPC.Pages.Polls
 
         public async Task OnGetAsync(int id)
         {
+            _session = HttpContext.Session.SetString("username", username);
+
             _logger.LogInformation($"Call OnGetAsync IndexModel with ID: {id}");
             Poll = await _service.GetPollAsync(id);
         }
@@ -31,14 +36,18 @@ namespace gcsharpRPC.Pages.Polls
         {
             _logger.LogInformation($"Call OnPostCloseAsync with ID {id}");
             int idClosed = await _service.ClosePollAsync(id);
-            return RedirectToPage("/Polls/Index", new { id = idClosed.ToString() });
+            return RedirectToPage("/Events/Index", new { id = idClosed.ToString() });
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
+            if (HttpContext.Session.SetString("username", username) is not null) {
+                return RedirectToPage("/Login");
+            }
+
             _logger.LogInformation($"Call OnDeleteAsync with ID {id}");
             int idDeleted = await _service.DeletePollAsync(id);
-            return RedirectToPage("/Polls/Index", new { id = idDeleted.ToString() });;
+            return RedirectToPage("/Events/Index", new { id = idDeleted.ToString() });;
         }
     }
 }

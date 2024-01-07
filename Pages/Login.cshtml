@@ -1,23 +1,38 @@
 ﻿@page
 @model LoginModel
 @{
-    ViewData["Title"] = "Logged In";
+    ViewData["Title"] = "LogIn Page";
 }
 <h1>@ViewData["Title"]</h1>
 
-<div class="form-group">  
-    <div class="col-md-offset-2 col-md-10">
+<div class="form-group">
+    <h4 class="text-danger">@Model.Message</h4>
+    <form method="POST" class="col-md-offset-2 col-md-10">
         <div class="form-group">
-            <label asp-for="Username"></label>
-            <input type="text" asp-for="Username" class="form-control" />
-            <span asp-validation-for="Username" class="text-danger"></span>
+            <label for="name">Username</label>
+            <input type="text" name="username" class="form-control" />
         </div>
 
         <div class="form-group mb-3">
-            <label asp-for="Password"></label>
-            <input type="text" asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" id="password-form"/>
+            <a href="#" id="show-hide-password">Show/Hide</a>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm mt-2 mb-2">Create</button>
-    </div>  
+
+        <button type="submit" class="btn btn-primary btn-sm mt-2 mb-2">Log In</button>
+    </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $("#show-hide-password").on('click', function(event) {
+            event.preventDefault();
+            if ($("#password-form").attr("type") == "password") {
+                $("#password-form").attr("type", "text");
+            }
+            else {
+                $("#password-form").attr("type", "password");
+            }
+        })
+    })
+</script>
