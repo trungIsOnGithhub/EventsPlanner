@@ -13,7 +13,7 @@
     <form method="POST">
         @if (Model._session is not null)
         {
-            <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</button>
+            <a class="btn btn-warning btn-sm ms-1" type="submit" asp-page-handler="Delete" asp-route-id="@Model.Poll.Id">Delete</a>
         }
         @{
             var guid = Model.Poll.PollGuid.ToString("N");

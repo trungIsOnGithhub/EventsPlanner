@@ -16,7 +16,7 @@ namespace gcsharpRPC.Pages.Polls
         
         public Poll Poll { get; set; }
 
-        public ISession _session;
+        public string _session;
 
         public GetPollPageModel(PollService service, ILogger<GetPollPageModel> logger)
         {
@@ -26,7 +26,7 @@ namespace gcsharpRPC.Pages.Polls
 
         public async Task OnGetAsync(int id)
         {
-            _session = HttpContext.Session.SetString("username", username);
+            _session = HttpContext.Session.GetString("username");
 
             _logger.LogInformation($"Call OnGetAsync IndexModel with ID: {id}");
             Poll = await _service.GetPollAsync(id);
@@ -41,7 +41,7 @@ namespace gcsharpRPC.Pages.Polls
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            if (HttpContext.Session.SetString("username", username) is not null) {
+            if (HttpContext.Session.GetString("username") is null) {
                 return RedirectToPage("/Login");
             }
 
