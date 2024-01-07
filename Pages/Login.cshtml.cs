@@ -20,7 +20,7 @@ public class LoginModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(string username, string password)  
+    public IActionResult OnPost(string username, string password)  
     {
         if ( username.Equals("trungdeptrai", StringComparison.CurrentCulture) &&
              password.Equals("trungdeptrai", StringComparison.CurrentCulture) )
