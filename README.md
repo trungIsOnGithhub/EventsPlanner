@@ -20,4 +20,4 @@ A simple .NET event booking planner with OpenID Connect integration(future, curr
 
 - Only the administrator can create events.
 - Every authenticated user is currently an administrator (no claim checks).
-- 
+- Every site visitor can view the list of events
