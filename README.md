@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/trungIsOnGithhub/gcsharpRPC/actions/workflows/ci.yml/badge.svg)](https://github.com/trungIsOnGithhub/gcsharpRPC/actions/workflows/ci.yml)
 
-A simple .NET event booking planner with OpenID Connect(OAuth) integration, to be hosted within a Docker container.
+A simple .NET event booking planner with OpenID Connect integration(future, currently used web session), to be hosted within a Docker container(future).
 
 ### Project Setup
 
@@ -18,5 +18,6 @@ A simple .NET event booking planner with OpenID Connect(OAuth) integration, to b
 
 ## Restrictions (Current version)
 
-- Only the administrator can create polls.
-- Every authenticated "Edap"-client user is currently an administrator (no claim checks).
+- Only the administrator can create events.
+- Every authenticated user is currently an administrator (no claim checks).
+- 
