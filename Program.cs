@@ -1,3 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using gcsharpRPC.Data;
 using gcsharpRPC.Helpers;
 using gcsharpRPC.Services;
@@ -19,7 +33,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(18);
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -29,28 +43,73 @@ builder.Services.AddDbContext<TrungContext>();
 /**
 *   Authentication config
 **/
+builder.Services
+.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+.AddEntityFrameworkStores<TrungContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequiredUniqueChars = 1;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    // options.Cookie.HttpOnly = true;
+    // options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+    options.LoginPath = "/Identity/Login";
+    options.AccessDeniedPath = "/Identity/AccessDenied";
+    options.SlidingExpiration = true;
+});
 // builder.Services.AddAuthentication(options =>
-//     {
-//         // default setting
-//         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//         options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-//         options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;  
-//         options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//     })
-//     .AddCookie(options =>
-//     {
-//         options.Cookie.HttpOnly = true;
-//         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-//         //options.Cookie.SameSite = SameSiteMode.Strict;
+// {
+//     // Password settings.
+//     options.Password.RequireDigit = true;
+//     options.Password.RequireLowercase = true;
+//     options.Password.RequireNonAlphanumeric = true;
+//     options.Password.RequireUppercase = true;
+//     options.Password.RequiredLength = 6;
+//     options.Password.RequiredUniqueChars = 1;
 
-//         // Console.WriteLine(options.Cookie);
+//     // Lockout settings.
+//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+//     options.Lockout.MaxFailedAccessAttempts = 5;
+//     options.Lockout.AllowedForNewUsers = true;
 
-//         options.LoginPath = new PathString("/Login");  
-//         options.ExpireTimeSpan = TimeSpan.FromMinutes(8.0);  
+//     // User settings.
+//     options.User.AllowedUserNameCharacters =
+//     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+//     options.User.RequireUniqueEmail = false;
+// }).AddCookie(options =>
+// {
+//     options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
+//     options.Cookie.HttpOnly = true;
+//     // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+//     // options.Cookie.SameSite = SameSiteMode.Strict;
 
-//         options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
-//         options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
-//     });
+//     // Console.WriteLine(options.Cookie);
+
+//     options.LoginPath = new PathString("/Identity/Login");  
+//     options.ExpireTimeSpan = TimeSpan.FromMinutes(30.0);  
+//     // options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
+// });
 
 /**
 * Add Service
@@ -85,7 +144,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseSession();
-// app.UseAuthentication();
+app.UseAuthentication();
 
 app.MapRazorPages();
 
