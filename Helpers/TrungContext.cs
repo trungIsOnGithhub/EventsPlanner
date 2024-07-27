@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 using gcsharpRPC.Models;
 
 namespace gcsharpRPC.Helpers
 {
-    public class TrungContext : DbContext
+    public class TrungContext : IdentityDbContext
     {
         // Dependedency Injection
         protected readonly IConfiguration Configuration;
@@ -15,11 +17,13 @@ namespace gcsharpRPC.Helpers
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            base.OnConfiguring(options);
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Poll>()
                 .HasMany(x => x.UserVotes)
                 .WithOne(x => x.Poll);
