@@ -18,16 +18,19 @@ using gcsharpRPC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
-    // .AddRazorPagesOptions(options =>
-    // {
-    //     options.Conventions.AuthorizeFolder("/");
-    //     options.Conventions.AllowAnonymousToPage("/Index");
-    //     options.Conventions.AllowAnonymousToPage("/Login");
-    //     options.Conventions.AllowAnonymousToPage("/Error");
-    //     options.Conventions.AllowAnonymousToPage("/Events/Join");
-    //     options.Conventions.AllowAnonymousToPage("/Events/List");
-    // });
+builder.Services
+.AddRazorPages()
+.AddRazorPagesOptions(options =>
+{
+    options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Identity/Login");
+    options.Conventions.AllowAnonymousToPage("/Identity/ExternalLogin");
+    options.Conventions.AllowAnonymousToPage("/Privacy");
+    options.Conventions.AllowAnonymousToPage("/Identity/AccessDenied");
+    options.Conventions.AllowAnonymousToPage("/Error");
+    options.Conventions.AllowAnonymousToPage("/Events/List");
+});
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -66,6 +69,16 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
+});
+
+builder.Services.AddAuthentication()
+.AddGoogle(googleOptions =>
+{
+    IConfigurationSection googleSection = builder.Configuration.GetSection("Authentication:Google");
+
+    googleOptions.ClientId = googleSection["ClientId"];
+    googleOptions.ClientSecret = googleSection["ClientSecret"];
+    googleOptions.CallbackPath = "/Index";
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -145,6 +158,7 @@ app.UseRouting();
 
 app.UseSession();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 
