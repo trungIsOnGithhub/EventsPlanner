@@ -32,10 +32,6 @@ namespace gcsharpRPC.Pages.Polls
         }
 
         public IActionResult OnGet() {
-            if (HttpContext.Session.GetString("username") is null) 
-            {
-                return Redirect("/Login");
-            }
             return Page();
         }
 
