@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace gcsharpRPC.Pages.Identity
 {
-    [AllowAnonymous]
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -19,13 +18,14 @@ namespace gcsharpRPC.Pages.Identity
             _logger = logger;
         }
 
-        public void OnGet()
-        {
-        }
+        // public void OnGet()
+        // {
+        // }
 
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
+
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 
 namespace gcsharpRPC.Pages.Identity
 {
-    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -24,12 +23,13 @@ namespace gcsharpRPC.Pages.Identity
             _logger = logger;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -50,6 +50,9 @@ namespace gcsharpRPC.Pages.Identity
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // var authSchemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+            // ExternalLogins = authSchemes.ToList();
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
