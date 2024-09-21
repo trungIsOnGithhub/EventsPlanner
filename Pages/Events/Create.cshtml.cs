@@ -36,10 +36,10 @@ namespace gcsharpRPC.Pages.Polls
         }
 
         public async Task<IActionResult> OnPostAsync() {
-            if (HttpContext.Session.GetString("username") is null)
-            {
-                return Redirect("/Login");
-            }
+            // if (HttpContext.Session.GetString("username") is null)
+            // {
+            //     return Redirect("/Login");
+            // }
 
             _logger.LogInformation("Called OnPostAsync!!");
 
@@ -56,22 +56,19 @@ namespace gcsharpRPC.Pages.Polls
             //     // _logger.LogInformation(PollOptions.StartTime);
             // }
 
-            // if (PollOptions.Length == 0)
-            // {
-            //     _logger.LogInformation("PollOptions is zero");
-            // }
-            // else
-            // {
-            //     _logger.LogInformation("PollOptions is not zero");
-            // }
+            if (PollOptionDates.Length == 0)
+            {
+                // _logger.LogInformation("PollOptions is zero");
+                ViewData["PollOptionErrors"] = "Poll Option Cannot Be Empty!";
+            }
 
             PollOption[] PollOptions = new PollOption[PollOptionDates.Length];
 
             for (int i=0; i<PollOptionEndTimes.Length; ++i)
             {
-                _logger.LogInformation("--> " + PollOptionDates[i]);
-                _logger.LogInformation("--> " + PollOptionStartTimes[i]);
-                _logger.LogInformation("--> " + PollOptionEndTimes[i]);
+                // _logger.LogInformation("--> " + PollOptionDates[i]);
+                // _logger.LogInformation("--> " + PollOptionStartTimes[i]);
+                // _logger.LogInformation("--> " + PollOptionEndTimes[i]);
 
                 PollOptions[i] = new PollOption {
                     Date = PollOptionDates[i],
@@ -80,10 +77,15 @@ namespace gcsharpRPC.Pages.Polls
                 };
             }
 
+            if (ViewData["PollOptionErrors"] is null)
+            {
+                return Page();
+            }
+
             if (ModelState.IsValid && Poll is not null) {
                 await _service.CreatePollAsync(Poll, PollOptions);
-
-                return RedirectToPage("Index", new { id = Poll.Id });
+                _logger.LogInformation(Poll.ToString());
+                return Page();
             }
 
             return Page();
