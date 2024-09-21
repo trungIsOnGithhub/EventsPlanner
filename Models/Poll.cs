@@ -21,4 +21,9 @@ public class Poll
         UserVotes = new List<UserVote>();
         Options = new List<PollOption>();
     }
+
+    public override string ToString()
+    {
+        return $"{Id}___{Title}___{Location}__{CloseDate}__{PollGuid}";
+    }
 }
