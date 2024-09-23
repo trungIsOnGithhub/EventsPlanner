@@ -26,17 +26,21 @@
                                     {
                                        userVoteStyle = optionsWithMaxVotesAmount == 1 ? "text-success" : "text-warning";
                                     }
-                                    <p class="card-text text-center @userVoteStyle"><i class="bi bi-people-fill"></i> @pollOption.UserVotes.Count()</p>
+                                    <p class="card-text text-center @userVoteStyle"><i class="fa fa-user" aria-hidden="true"></i> @pollOption.UserVotes.Count()</p>
                                 }
                                 @if (!Model.IsReadOnly && !Model.Poll.CloseDate.HasValue)
                                 {
                                     <input class="card-text form-check-input" type="checkbox" name="SelectedPollOptionIds" value="@(pollOption.Id)" />
                                 }
                             </div>
+                            @{
+                                var formattedStartTime = $"{(int)pollOption.StartTime}h {(pollOption.StartTime%1)*60}m";
+                                var formattedEndTime = $"{(int)pollOption.EndTime}h {(pollOption.EndTime%1)*60}m";
+                            }
                             <div class="card-header">
-                                <p>@pollOption.StartTime</p>
+                                <p>@formattedStartTime</p>
                                 <p>to</p>
-                                <p>@pollOption.EndTime</p>
+                                <p>@formattedEndTime</p>
                             </div>
                         </div>
                     </div>
