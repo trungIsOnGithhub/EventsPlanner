@@ -41,6 +41,21 @@ namespace gcsharpRPC.Services
             return await dbContext.SaveChangesAsync();
         }
 
+        public async Task<int> CreatePollAsync(Poll poll, IEnumerable<PollOption> pollOptions)
+        {
+            foreach (var option in pollOptions) {
+                poll.Options.Add(option);
+                // _logger.LogInformation(")))) " + option.Date);
+                // _logger.LogInformation(")))) " + option.StartTime);
+            }
+
+            await dbContext.Polls.AddAsync(poll);
+
+            _logger.LogInformation("===== " + poll);
+
+            return await dbContext.SaveChangesAsync();
+        }
+
         public async Task<int> DeletePollAsync(int id)
         {
             var pollToDelete = await GetPollAsync(id);
