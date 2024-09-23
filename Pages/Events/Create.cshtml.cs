@@ -3,6 +3,7 @@ using gcsharpRPC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace gcsharpRPC.Pages.Polls
 {
@@ -17,12 +18,6 @@ namespace gcsharpRPC.Pages.Polls
 
         [BindProperty]
         public DateTime[] PollOptionDates { get; set; }
-
-        [BindProperty]
-        public string[] PollOptionStartTimes { get; set; }
-
-        [BindProperty]
-        public string[] PollOptionEndTimes { get; set; }
         
         public CreatePollPageModel(PollService pollService,
                             ILogger<CreatePollPageModel> logger)
@@ -40,52 +35,75 @@ namespace gcsharpRPC.Pages.Polls
             // {
             //     return Redirect("/Login");
             // }
-
-            _logger.LogInformation("Called OnPostAsync!!");
-
-            if (ModelState.IsValid) {
-                _logger.LogInformation("Model Valid");
-            }
-
-            if (Poll is not null) {
-                _logger.LogInformation("Poll is not null");
-            }
-
-            // if (PollOptions is not null) {
-            //     _logger.LogInformation("PollOptions is not null");
-            //     // _logger.LogInformation(PollOptions.StartTime);
-            // }
-
-            if (PollOptionDates.Length == 0)
+            if (Request.Form.Count < 4)
             {
-                // _logger.LogInformation("PollOptions is zero");
                 ViewData["PollOptionErrors"] = "Poll Option Cannot Be Empty!";
+                return Page();
             }
 
-            PollOption[] PollOptions = new PollOption[PollOptionDates.Length];
+             _logger.LogInformation("11111111");
 
-            for (int i=0; i<PollOptionEndTimes.Length; ++i)
-            {
-                // _logger.LogInformation("--> " + PollOptionDates[i]);
-                // _logger.LogInformation("--> " + PollOptionStartTimes[i]);
-                // _logger.LogInformation("--> " + PollOptionEndTimes[i]);
+            if (!ModelState.IsValid) {
+                ViewData["PollOptionErrors"] = "Invalid Input Data!";
+                return Page();
+            }
 
-                PollOptions[i] = new PollOption {
-                    Date = PollOptionDates[i],
-                    StartTime = PollOptionStartTimes[i],
-                    EndTime = PollOptionEndTimes[i]
+                         _logger.LogInformation("22222222");
+
+            IList<PollOption> pollOptions = new List<PollOption>();
+            foreach (var item in Request.Form) {
+                // _logger.LogInformation($"Key = {item.Key}, Value = {item.Value}");
+                if (!item.Key.Contains("starttime") && !item.Key.Contains("endtime"))
+                { continue; }
+
+                var anotherPartialTimeKey = item.Key.IndexOf("starttime") == 0
+                                        ?  item.Key.Replace("starttime", "endtime")
+                                        : item.Key.Replace("endtime", "starttime") ;
+                var dateKey = item.Key.IndexOf("starttime") == 0
+                            ?  item.Key.Replace("starttime", "date")
+                            : item.Key.Replace("endtime", "date");
+
+                if (!Request.Form.ContainsKey(anotherPartialTimeKey)
+                    || !Request.Form.ContainsKey(dateKey))
+                {
+                    ViewData["PollOptionErrors"] = "Invalid Input Data!";
+                    return Page();
+                }
+
+                DateTime date = new DateTime();
+                _logger.LogInformation($"----{Request.Form[dateKey]}");
+                try
+                {
+                    date = DateTime.ParseExact(Request.Form[dateKey], "yyyy-MM-dd", null);
+                } catch
+                {
+                    continue;
+                }
+ 
+                var startTime = item.Key.IndexOf("starttime") == 0
+                            ?  Request.Form[item.Key]
+                            : Request.Form[anotherPartialTimeKey];
+                var endTime = item.Key.IndexOf("endtime") == 0
+                            ?  Request.Form[item.Key]
+                            : Request.Form[anotherPartialTimeKey];
+                
+                var startTimeFloat = float.Parse(startTime, CultureInfo.InvariantCulture.NumberFormat);
+                var endTimeFloat = float.Parse(endTime, CultureInfo.InvariantCulture.NumberFormat);
+
+                var pollOption = new PollOption {
+                    Date = date,
+                    StartTime = startTimeFloat,
+                    EndTime = endTimeFloat
                 };
+
+                pollOptions.Add(pollOption);
             }
 
-            if (ViewData["PollOptionErrors"] is null)
+            _logger.LogInformation("5555555");
+            await _service.CreatePollAsync(Poll, pollOptions);
+            foreach (var option in pollOptions)
             {
-                return Page();
-            }
-
-            if (ModelState.IsValid && Poll is not null) {
-                await _service.CreatePollAsync(Poll, PollOptions);
-                _logger.LogInformation(Poll.ToString());
-                return Page();
+                _logger.LogInformation(option.ToString());
             }
 
             return Page();

@@ -108,7 +108,7 @@
         const pollOptionsContainerElement = $("#option-container");
         let beforeAddOptionCount = pollOptionsContainerElement.children().length;
     
-        const timeOption = $(`<div class="card m-3">
+        const timeOption = $(`<div class="card m-3" id="timeslot${beforeAddOptionCount}">
                 <div class="card-header text-center">
                     Timeslot ${beforeAddOptionCount}
                 </div>
@@ -149,10 +149,10 @@
         }).appendTo($("#option-container"));
     }
     function deletePollOption(elementNumberToDelete) {
-        if (elementNumberToDelete > 0) {
-            // const pollOptionsContainerElement = document.getElementById("option-container");
-            $("option-container").empty();
-            console.log(elementNumberToDelete)   
+        const elementToDelete = document.getElementById(`timeslot${elementNumberToDelete}`);
+        if (elementToDelete) {
+            document.getElementById("option-container").removeChild(elementToDelete);
+            console.log('==============', elementToDelete);
         }
     }
     function fillTimeOptions(selectElementIdToFill ,startTimeFloat, endTimeFloat, offset) {
@@ -194,7 +194,7 @@
                 document.querySelector(`[name="starttime${elementNumberToDelete}"]`)?.value || -1.0);
             let targetEndTimeValue = parseFloat(
                 document.querySelector(`[name="endtime${elementNumberToDelete}"]`).value);
-            alert(targetEndTimeValue+'[[[[[[[[[[[[[]]]]]]]]]]]]]')
+            // alert(targetEndTimeValue+'[[[[[[[[[[[[[]]]]]]]]]]]]]')
 
             $(`[name="starttime${elementNumberToDelete}"]`).empty();
             fillTimeOptions(`[name="starttime${elementNumberToDelete}"]`, 0.0, targetEndTimeValue, 0.5);
@@ -213,7 +213,7 @@
                 document.querySelector(`[name="endtime${elementNumberToDelete}"]`)?.value || -1.0);
             let targetStartTimeValue = parseFloat(
                 document.querySelector(`[name="starttime${elementNumberToDelete}"]`).value);
-            alert(targetStartTimeValue+'??????????????????????')
+            // alert(targetStartTimeValue+'??????????????????????')
 
             $(`[name="endtime${elementNumberToDelete}"]`).empty();
             fillTimeOptions(`[name="endtime${elementNumberToDelete}"]`, targetStartTimeValue, 24.0, 0.5);
