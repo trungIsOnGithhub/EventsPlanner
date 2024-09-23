@@ -41,7 +41,7 @@ namespace gcsharpRPC.Services
             return await dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> CreatePollAsync(Poll poll, IEnumerable<PollOption> pollOptions)
+        public async Task<int> CreatePollAsync(Poll poll, IList<PollOption> pollOptions)
         {
             foreach (var option in pollOptions) {
                 poll.Options.Add(option);
