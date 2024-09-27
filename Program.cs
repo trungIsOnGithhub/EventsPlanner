@@ -19,19 +19,19 @@ using gcsharpRPC.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-.AddRazorPages();
-// .AddRazorPagesOptions(options =>
-// {
-//     options.Conventions.AuthorizeFolder("/");
-//     options.Conventions.AllowAnonymousToPage("/Index");
-//     options.Conventions.AllowAnonymousToPage("/Identity/Login");
-//     options.Conventions.AllowAnonymousToPage("/Identity/ExternalLogin");
-//     options.Conventions.AllowAnonymousToPage("/Privacy");
-//     options.Conventions.AllowAnonymousToPage("/Identity/AccessDenied");
-//     options.Conventions.AllowAnonymousToPage("/Error");
-//     options.Conventions.AllowAnonymousToPage("/Events/List");
-//     options.Conventions.AllowAnonymousToPage("/Events/Create");
-// });
+.AddRazorPages()
+.AddRazorPagesOptions(options =>
+{
+    options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Identity/Login");
+    options.Conventions.AllowAnonymousToPage("/Identity/ExternalLogin");
+    options.Conventions.AllowAnonymousToPage("/Privacy");
+    options.Conventions.AllowAnonymousToPage("/Identity/AccessDenied");
+    options.Conventions.AllowAnonymousToPage("/Error");
+    options.Conventions.AllowAnonymousToPage("/Events/List");
+    options.Conventions.AllowAnonymousToPage("/Events/Create");
+});
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -47,82 +47,82 @@ builder.Services.AddDbContext<TrungContext>();
 /**
 *   Authentication config
 **/
-// builder.Services
-// .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-// .AddEntityFrameworkStores<TrungContext>();
+builder.Services
+.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+.AddEntityFrameworkStores<TrungContext>();
 
-// builder.Services.Configure<IdentityOptions>(options =>
-// {
-//     // Password settings.
-//     options.Password.RequireDigit = true;
-//     options.Password.RequireLowercase = false;
-//     options.Password.RequireNonAlphanumeric = false;
-//     options.Password.RequireUppercase = false;
-//     options.Password.RequiredLength = 5;
-//     options.Password.RequiredUniqueChars = 1;
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequiredUniqueChars = 1;
 
-//     // Lockout settings.
-//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-//     options.Lockout.MaxFailedAccessAttempts = 5;
-//     options.Lockout.AllowedForNewUsers = true;
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
 
-//     // User settings.
-//     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-//     options.User.RequireUniqueEmail = false;
-// });
+    // User settings.
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
 
-// builder.Services.AddAuthentication()
-// .AddGoogle(googleOptions =>
-// {
-//     IConfigurationSection googleSection = builder.Configuration.GetSection("Authentication:Google");
+builder.Services.AddAuthentication()
+.AddGoogle(googleOptions =>
+{
+    IConfigurationSection googleSection = builder.Configuration.GetSection("Authentication:Google");
 
-//     googleOptions.ClientId = googleSection["ClientId"];
-//     googleOptions.ClientSecret = googleSection["ClientSecret"];
-//     googleOptions.CallbackPath = "/Index";
-// });
+    googleOptions.ClientId = googleSection["ClientId"];
+    googleOptions.ClientSecret = googleSection["ClientSecret"];
+    googleOptions.CallbackPath = "/Index";
+});
 
-// builder.Services.ConfigureApplicationCookie(options =>
-// {
-//     // Cookie settings
-//     // options.Cookie.HttpOnly = true;
-//     // options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    // options.Cookie.HttpOnly = true;
+    // options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 
-//     options.LoginPath = "/Identity/Login";
-//     options.AccessDeniedPath = "/Identity/AccessDenied";
-//     options.SlidingExpiration = true;
-// });
-// builder.Services.AddAuthentication(options =>
-// {
-//     // Password settings.
-//     options.Password.RequireDigit = true;
-//     options.Password.RequireLowercase = true;
-//     options.Password.RequireNonAlphanumeric = true;
-//     options.Password.RequireUppercase = true;
-//     options.Password.RequiredLength = 6;
-//     options.Password.RequiredUniqueChars = 1;
+    options.LoginPath = "/Identity/Login";
+    options.AccessDeniedPath = "/Identity/AccessDenied";
+    options.SlidingExpiration = true;
+});
+builder.Services.AddAuthentication(options =>
+{
+    // Password settings.
+    // options.Password.RequireDigit = true;
+    // options.Password.RequireLowercase = true;
+    // options.Password.RequireNonAlphanumeric = true;
+    // options.Password.RequireUppercase = true;
+    // options.Password.RequiredLength = 6;
+    // options.Password.RequiredUniqueChars = 1;
 
-//     // Lockout settings.
-//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-//     options.Lockout.MaxFailedAccessAttempts = 5;
-//     options.Lockout.AllowedForNewUsers = true;
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
 
-//     // User settings.
-//     options.User.AllowedUserNameCharacters =
-//     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-//     options.User.RequireUniqueEmail = false;
-// }).AddCookie(options =>
-// {
-//     options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
-//     options.Cookie.HttpOnly = true;
-//     // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-//     // options.Cookie.SameSite = SameSiteMode.Strict;
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+}).AddCookie(options =>
+{
+    options.Cookie.Name = builder.Configuration["IdentityProvider:CookieName"];
+    options.Cookie.HttpOnly = true;
+    // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    // options.Cookie.SameSite = SameSiteMode.Strict;
 
-//     // Console.WriteLine(options.Cookie);
+    // Console.WriteLine(options.Cookie);
 
-//     options.LoginPath = new PathString("/Identity/Login");  
-//     options.ExpireTimeSpan = TimeSpan.FromMinutes(30.0);  
-//     // options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
-// });
+    options.LoginPath = new PathString("/Identity/Login");  
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30.0);  
+    // options.Events.OnSigningOut = async e => await e.HttpContext.RevokeUserRefreshTokenAsync();
+});
 
 /**
 * Add Service
